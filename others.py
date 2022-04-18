@@ -5,10 +5,7 @@ done = False
 while not done:
 	# Invalid input
 	if len(sys.argv) > 3:
-		print("Enter only the URL of the thread as the first parameter followed by destination directory ie:\n$ python3 4chMediaFetch.py https://boards.4chan.org/ic/thread/0123456789 ~/Downloads/images/")
-	# Check website, currently only 4chan
-	elif "boards.4chan" not in sys.argv[1]:
-		print("Enter a 4chan/4channel thread URL only. I'm working on compatibility with other websites.")
+		print("Enter only the URL of the thread as the first parameter followed by destination directory ie:\n$ python3 4chMediaFetch.py https://website.com/pageWithImages.html ~/Downloads/images/\n")
 		done = True
 	else:
 		try:
@@ -19,9 +16,9 @@ while not done:
 			done = True
 			break
 
-		dictFromResult = dict.fromkeys(re.findall(r"(i\.4cdn\.org\/[a-z]{1,4}\/[0-9]{1,20}\.[a-z]{2,4})", html.read().decode()))
+		dictFromResult = dict.fromkeys(re.findall(r"src=(\"https\:\/\/www\.[a-z0-9A-Z]{2,}\.[a-z]{2,4}\/[a-z\-\_]{1,}\/[a-z0-9A-Z]\.[a-z]{2,4})\"", html.read().decode()))
 		listOfImages = list(dictFromResult)
-		threadNumber = sys.argv[1].split("/")[-1].split("#")[0]
+
 		for image in listOfImages:
 			if len(sys.argv) == 3:
 				system(f"wget -q https://{image} -P {sys.argv[2]}")

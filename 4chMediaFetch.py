@@ -1,11 +1,12 @@
 from os import system
+from time import sleep
 import re, urllib.request, sys
 
 done = False
-while not done:
+while not done:	
 	# Invalid input
 	if len(sys.argv) > 3:
-		print("Enter only the URL of the thread as the first parameter followed by destination directory ie:\n$ python3 4chMediaFetch.py https://boards.4chan.org/ic/thread/0123456789 ~/Downloads/images/")
+		print("Enter only the URL of the thread as the first parameter followed by destination directory ie:\n$ python3 4chMediaFetch.py https://boards.4chan.org/ic/thread/0123456789 \"~/Downloads/images/\"")
 	# Check website, currently only 4chan
 	elif "boards.4chan" not in sys.argv[1]:
 		print("Enter a 4chan/4channel thread URL only. I'm working on compatibility with other websites.")
@@ -24,10 +25,16 @@ while not done:
 		threadNumber = sys.argv[1].split("/")[-1].split("#")[0]
 		for image in listOfImages:
 			if len(sys.argv) == 3:
+				# Download to foldedr with specified name.
 				system(f"wget -q https://{image} -P {sys.argv[2]}")
-				print(f"Downloading {image} to {sys.argv[2]}...")
+				sys.stdout.write(f"Downloading {image} to {sys.argv[2]}...")
+				sys.stdout.flush()
+				sleep(0.5)
 			else:
-				system("wget -q https://{image} -P ~/Downloads/{sys.argv[1].split('/')[-1]}/")
-				print(f"Downloading {image} to ~/Downloads/{threadNumber}/ folder...")
+				# Download to folder named with thread number.
+				system("wget -q https://{image} -P ~/Downloads/{sys.argv[1].split('#')[0].split('/')[-1]}/")
+				sys.stdout.write(f"Downloading {image} to ~/Downloads/{threadNumber}/...")
+				sys.stdout.flush()
+				sleep(0.5)
 		done = True
 		print(f"{len(listOfImages)} files saved.")

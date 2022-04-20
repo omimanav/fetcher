@@ -1,10 +1,20 @@
-# The Fetcher
+# Fetcher
+## Fetch wallpapers and other files!
+
 Usage:
 
 ```
-$ python3 fetch URLToThread [path/to/local/folder/]
+$ python3 fetch.py
 ```
 
-If path isn't specified it'll save automatically to ~/Downloads/threadName/
+or
 
-Requires wget and python3.
+```
+$ ./fetch.py
+```
+
+Currently gives you the option of downloading random wallpapers from wallhaven.cc (1) or you may enter a 4chan thread (2) to pull all files (incl. webm, gif, png, jpg, whatever.)
+
+Downloads from wallhaven.cc are stored in ~/Downloads/random/ and downloads from 4chan are stored in a folder named after the thread number.
+
+*Requires wget, urllib and python3.*

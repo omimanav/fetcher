@@ -8,7 +8,7 @@ import re, urllib.request, sys
 
 done = False
 while not done:
-	sys.stdout.write("1: Random Wallpapers\n2: Search\n3: 4channel URL\n4. Cyberdrop Album")
+	sys.stdout.write("1: Random Wallpapers\n2: Search\n3: 4channel URL\n4. Cyberdrop Album\n")
 	selection = int(input(">>> "))
 	
 	# Random from Wallhaven
@@ -49,7 +49,7 @@ while not done:
 		
 		for ID in listOfId:
 			image = f"https://w.wallhaven.cc/full/{ID[0:2]}/wallhaven-{ID}.jpg"
-			system(f"wget -q {image} -P ~/Downloads/Random/")
+			system(f"wget -q {image} -P ~/Downloads/Search/")
 			print(f"Downloading {listOfId.index(ID) + 1} of {len(listOfId)} to ~/Downloads/Search/", end="\r")
 		done = True
 		print(f"\n{len(listOfId)} images saved.")

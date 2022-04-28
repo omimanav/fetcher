@@ -4,9 +4,11 @@ from os import system
 from time import sleep
 import re, urllib.request, sys
 
+# Set user agent for some shitty sites
+
 done = False
 while not done:
-	sys.stdout.write("1: Random wallpapers\n2: 4channel URL\n")
+	sys.stdout.write("1: Random Wallpapers\n2: Search\n3: 4channel URL\n4. Cyberdrop Album")
 	selection = int(input(">>> "))
 	
 	# Random from Wallhaven
@@ -30,9 +32,30 @@ while not done:
 			print(f"Downloading {listOfId.index(ID) + 1} of {len(listOfId)} to ~/Downloads/Random/", end="\r")
 		done = True
 		print(f"\n{len(listOfId)} images saved.")
-				
-	# 4chan
+
+	# Search Wallhaven
 	elif selection == 2:
+		search = input("Search: ")
+		try:
+			url = f"https://wallhaven.cc/search?q={search}&categories=111&purity=110&sorting=random"
+			req = urllib.request.Request(url, headers={"User-Agent":"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36"})
+			html = urllib.request.urlopen(req)
+		except Exception as e:
+			print(f"Nope. {e}")
+			
+		# Collect and convert thumbnail id to full image links (data-wallpaper-id="abc123" -> w.wallhaven.cc/full/ab/wallhaven-abc123.jpg)
+		dictFromResult = dict.fromkeys(re.findall(r'data-wallpaper-id="([a-zA-Z0-9]{3,10})"', html.read().decode()))
+		listOfId = list(dictFromResult)
+		
+		for ID in listOfId:
+			image = f"https://w.wallhaven.cc/full/{ID[0:2]}/wallhaven-{ID}.jpg"
+			system(f"wget -q {image} -P ~/Downloads/Random/")
+			print(f"Downloading {listOfId.index(ID) + 1} of {len(listOfId)} to ~/Downloads/Search/", end="\r")
+		done = True
+		print(f"\n{len(listOfId)} images saved.")
+
+	# 4chan
+	elif selection == 3:
 		url = input("Paste full thread URL here\n>>> ")
 		# fetch thread page
 		try:
@@ -54,3 +77,25 @@ while not done:
 			print(f"Downloading {file.split('/')[-1]} to ~/Downloads/{threadNumber}/", end="\r")
 		done = True
 		print(f"\n{len(listOfFiles)} files saved.")
+
+	# Cyberdrop
+	elif selection == 4:
+		albumId = input("Enter album ID (the last alphanumerical part of the URL)\n>>> ")
+		
+		try:
+			url = f"https://cyberdrop.me/a/{albumId}"
+			req = urllib.request.Request(url, headers={"User-Agent":"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36"})
+			html = urllib.request.urlopen(req)
+		except Exception as e:
+			print(f"Nope. {e}")
+			done = True
+			break
+			
+		dictFromResult = dict.fromkeys(re.findall(r'data-src="(.{10,})" data-type', html.read().decode()))
+		listOfFiles = list(dictFromResult)
+		
+		for file in listOfFiles:
+			system(f"wget -q {file} -P ~/Downloads/{albumId}")
+			print(f"Downloading {listOfId.index(file)} of len(listOfFiles) to ~/Downloads/{albumId}", end="\r")
+		done = True
+		print("\n{len(listOfFiles) files saved.}")

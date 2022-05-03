@@ -124,7 +124,7 @@ while not done:
 			listOfFiles = list(dictFromResult)[0:int(number)]
 			
 			for file in listOfFiles:
-				system(f"wget -q {file} -P ~/Downloads/gifs/")
+				system(f"wget {file} -P ~/Downloads/gifs/")
 				print(f"Downloading {listOfFiles.index(file) + 1} of {len(listOfFiles)} to ~/Downloads/gifs/", end="\r")
 			done = True
 			print(f"\n{len(listOfFiles)} files saved.")

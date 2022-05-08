@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-import pyperclip
-
 from os import system
 from time import sleep
 import re, urllib.request, sys
@@ -10,7 +8,7 @@ import re, urllib.request, sys
 
 done = False
 while not done:
-	sys.stdout.write("Leave blank to exit.\n1: Random Wallpapers\n2: Search\n3: 4channel\n4: Cyberdrop\n5: Tenor - GIFs\n6: Behance\n")
+	sys.stdout.write("Leave blank to exit.\n1: Random Wallpapers\n2: Search\n3: 4channel\n4: Cyberdrop\n5: Tenor - GIFs\n")
 
 	try:
 		selection = input(">>> ")
@@ -107,7 +105,7 @@ while not done:
 			done = True
 			print(f"\n{len(listOfFiles)} files saved.")
 
-		# GIPHY
+		# TENOR
 		elif selection == 5:
 			search = input("Enter search term(s).\n>>> ")
 			number = input("How many gifs would you like?\nPlease enter a number between 1-50. Any higher may potentially break the process.\n>>> ")
@@ -126,26 +124,6 @@ while not done:
 			for file in listOfFiles:
 				system(f"wget -q {file} -P ~/Downloads/gifs/")
 				print(f"Downloading {listOfFiles.index(file) + 1} of {len(listOfFiles)} to ~/Downloads/gifs/", end="\r")
-			done = True
-			print(f"\n{len(listOfFiles)} files saved.")
-
-		# Behance
-		elif selection == 6:
-			url = input("Paste project URL here:\n>>> ")
-			try:
-				req = urllib.request.Request(url, headers={"User-Agent":"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36"})
-				html = urllib.request.urlopen(req)
-			except Exception as e:
-				print(f"Nope. {e}")
-				done = True
-				break
-
-			dictFromResult = dict.fromkeys(re.findall("(https://[.]{2,}.behance.net/project_modules/fs/[.]{3,}.[.]{3,}.[.]{3,5})", html.read().decode()))
-			listOfFiles = list(dictFromResult)
-
-			for file in listOfFiles:
-				system(f"wget -q {file} -P ~/Downloads/Behance/")
-				print(f"Downloading {listOfFiles.index(file) + 1} of {len(listOfFiles)} to ~/Downloads/Behance/", end="\r")
 			done = True
 			print(f"\n{len(listOfFiles)} files saved.")
 

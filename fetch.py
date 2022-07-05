@@ -36,9 +36,9 @@ while not done:
 				done = True
 				print(f"\n{len(listOfId)} images saved.")
 
-			# Search Wallhaven
+		# Search Wallhaven
 			case 2:
-				search = input("Search: ")
+				search = "+".join(input("Search: ").split(" "))
 				try:
 					url = f"https://wallhaven.cc/search?q={search}&categories=111&purity=110&sorting=random"
 					req = urllib.request.Request(url, headers={"User-Agent":"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36"})
@@ -57,7 +57,7 @@ while not done:
 				done = True
 				print(f"\n{len(listOfId)} images saved.")
 
-			# 4chan
+		# 4chan
 			case 3:
 				url = input("Paste full thread URL here\n>>> ")
 				# fetch thread page
@@ -81,7 +81,7 @@ while not done:
 				done = True
 				print(f"\n{len(listOfFiles)} files saved.")
 
-			# Cyberdrop
+		# Cyberdrop
 			case 4:
 				albumId = input("Enter album ID (the last alphanumerical part of the URL)\n>>> ")
 
@@ -103,7 +103,7 @@ while not done:
 				done = True
 				print(f"\n{len(listOfFiles)} files saved.")
 
-			# TENOR
+		# TENOR
 			case 5:
 				search = input("Enter search term(s).\n>>> ")
 				number = input("How many gifs would you like?\nPlease enter a number between 1-50. Any higher may potentially break the process.\n>>> ")
@@ -125,7 +125,7 @@ while not done:
 				done = True
 				print(f"\n{len(listOfFiles)} files saved.")
 
-			# danbooru
+		# danbooru
 			case 6:
 				search = input("Search: ")
 				try:
